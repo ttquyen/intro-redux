@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleTodo, addTodo, setFilter } from "./action";
+import { toggleTodo, setFilter, getTodos } from "./action";
 import TodoAdd from "./TodoAdd";
 const SHOW_ALL = "SHOW_ALL";
 const COMPLETED_ONLY = "COMPLETED_ONLY";
@@ -8,13 +8,16 @@ const ACTIVE_ONLY = "ACTIVE_ONLY";
 function TodoList() {
   const dispatch = useDispatch();
   const todoList = useSelector((state) => state.todoList);
-  console.log(todoList);
+
+  useEffect(() => {
+    dispatch(getTodos());
+  }, [dispatch]);
+
   const appliedFilterList = (list, filter) => {
     switch (filter) {
       case SHOW_ALL:
         return list;
       case COMPLETED_ONLY:
-        console.log(list.filter((i) => i.completed));
         return list.filter((i) => i.completed);
       case ACTIVE_ONLY:
         return list.filter((i) => !i.completed);
@@ -30,7 +33,7 @@ function TodoList() {
       <ul>
         {appliedFilterList(todoList.todos, todoList.filter)?.map(
           (todo, index) => (
-            <li key={index} onClick={() => dispatch(toggleTodo(todo.id))}>
+            <li key={index} onClick={() => dispatch(toggleTodo(todo))}>
               <p
                 style={{
                   textDecoration: todo.completed ? "line-through" : "none",

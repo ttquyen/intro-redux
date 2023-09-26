@@ -2,6 +2,7 @@
 export const ADD_TODO = "TODO.ADD";
 export const TOGGLE_TODO = "TODO.TOGGLE_TODO";
 export const SET_FILTER = "TODO.SET_FILTER";
+export const GET_TODOS = "TODO.GET_TODOS";
 
 const initialState = {
   todos: [],
@@ -29,6 +30,8 @@ const todoReducer = (state = initialState, action) => {
       };
     case SET_FILTER:
       return { ...state, filter: payload.filter };
+    case GET_TODOS:
+      return { ...state, todos: payload };
 
     default:
       return state;

@@ -12,12 +12,14 @@ export const removeCounter = (index) => ({
     index,
   },
 });
-export const increase = (index) => ({
-  type: INCREMENT,
-  payload: {
-    index,
-  },
-});
+export const increase = (index) => {
+  //add middleware before dispatch action to reducer
+  //but it is not a pure function
+  //=> use redux-thunk
+  return (dispatch) => {
+    setTimeout(() => dispatch({ type: INCREMENT, payload: { index } }), 1000);
+  };
+};
 export const decrease = (index) => ({
   type: DECREMENT,
   payload: {
